@@ -49,7 +49,7 @@ public class PatientManager : MonoBehaviour
 			PatientsWaiting--;
 
 			// Spawn new patient
-			Patient newPatient = Instantiate<Patient>(DefaultPatient, room.transform.position, Quaternion.identity, room.transform);
+			Patient newPatient = Instantiate<Patient>(DefaultPatient, room.SpawnPoint.position, Quaternion.identity, room.transform);
 
 			// Randomize patient stats
 			// TODO
@@ -59,6 +59,9 @@ public class PatientManager : MonoBehaviour
 
 			// Register patient to room
 			room.Patient = newPatient;
+
+			// Notify the player to the new patient
+			FindObjectOfType<Player>()?.Emote.Display(0, room.Number);
 		}
 	}
 }

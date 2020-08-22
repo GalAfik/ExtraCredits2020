@@ -5,6 +5,8 @@ using TMPro;
 
 public class Room : MonoBehaviour
 {
+	public Door Door;
+	public Transform SpawnPoint;
 	public int Number;
 	public bool IsOccupied
 	{
@@ -29,10 +31,12 @@ public class Room : MonoBehaviour
 			if (value == null) // Clearing the room
 			{
 				patient = null;
+				Door?.Close();
 			}
 			else if (patient == null) // Setting the patient when none is in the room
 			{
 				patient = value;
+				Door?.Open();
 			}
 			else // Trying to set a patient to this occupied room
 			{

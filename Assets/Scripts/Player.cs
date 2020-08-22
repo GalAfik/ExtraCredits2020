@@ -7,8 +7,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 	// Components
-	CharacterController Controller;
-	Animator Animator;
+	private CharacterController Controller;
+	private Animator Animator;
+	[HideInInspector] public Emote Emote;
 
 	// State
 	public enum PlayerState { FREE, HOLD };
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     {
 		Controller = GetComponent<CharacterController>();
 		Animator = GetComponent<Animator>();
+		Emote = GetComponentInChildren<Emote>();
 
 		// Zero out stress
 		Stress = 0;

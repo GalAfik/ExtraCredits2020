@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 
 	// Stress
 	public float MaxStress = 30f;
-	public float Stress = 0f; // CHANGE TO PRIVATE -------------------
+	public float Stress { get; private set; }
 	public float StressIncreaseRate = 1;
 	public float StressDecreaseRate = 2;
 	private bool Resting = false;
@@ -41,6 +41,9 @@ public class Player : MonoBehaviour
     {
 		Controller = GetComponent<CharacterController>();
 		Animator = GetComponent<Animator>();
+
+		// Zero out stress
+		Stress = 0;
     }
 
     // Update is called once per frame
@@ -184,17 +187,13 @@ public class Player : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.GetComponent<Pharmacy>() != null)
-		{
-			CollidingPharmacy = other.GetComponent<Pharmacy>();
-		}
+		if (other.GetComponent<Pharmacy>() != null) CollidingPharmacy = other.GetComponent<Pharmacy>();
+		if (other.GetComponent<RestZone>() != null) Resting = true;
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.GetComponent<Pharmacy>() != null)
-		{
-			CollidingPharmacy = null;
-		}
+		if (other.GetComponent<Pharmacy>() != null) CollidingPharmacy = null;
+		if (other.GetComponent<RestZone>() != null) Resting = false;
 	}
 }

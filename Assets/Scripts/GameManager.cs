@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 	public PatientManager PatientManager;
 	public RoomManager RoomManager;
+	public StressEffect StressEffect;
 	public Player Player;
 	public TimeBar TimeBar;
 
@@ -37,5 +38,8 @@ public class GameManager : MonoBehaviour
 			Timer += Time.deltaTime;
 			TimeBar.SetTime(Timer);
 		}
-    }
+
+		// Set the stress effect in the post processing volume
+		StressEffect?.SetStressEffect(Player.Stress, Player.MaxStress);
+	}
 }

@@ -152,6 +152,10 @@ MonoBehaviour:
   RunSpeed: 6
   KeyHoldTime: 2
   KeyPressThreshold: 0.2
+  MaxStress: 30
+  Stress: 0
+  StressIncreaseRate: 1
+  StressDecreaseRate: 2
 --- !u!95 &8612233673304581669
 Animator:
   serializedVersion: 3
@@ -227,7 +231,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0

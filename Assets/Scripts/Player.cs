@@ -29,6 +29,13 @@ public class Player : MonoBehaviour
 	private float KeyTimer = 0f;
 	private bool HoldFired = false;
 
+	// Stress
+	public float MaxStress = 30f;
+	public float Stress = 0f; // CHANGE TO PRIVATE -------------------
+	public float StressIncreaseRate = 1;
+	public float StressDecreaseRate = 2;
+	private bool Resting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,14 +48,24 @@ public class Player : MonoBehaviour
     {
 		HandleMovement();
 		HandleInput();
+		HandleStress();
     }
+
+	private void HandleStress()
+	{
+		// Change stress level
+		if (Resting) Stress -= StressDecreaseRate * Time.deltaTime;
+		else Stress += StressIncreaseRate * Time.deltaTime;
+
+		// Insure Stress bounds
+		if (Stress > MaxStress) Stress = MaxStress;
+		if (Stress < 0) Stress = 0;
+	}
 
 	private void HandleAnimation(Vector3 velocity)
 	{
 		// Handle walk/run animations
 		Animator?.SetFloat("Speed", velocity.magnitude);
-
-		print(velocity.x);
 
 		// Flip the sprite to face the correct movement direction
 		if (Mathf.Abs(velocity.x) > 0) Flipped = velocity.x < 0;

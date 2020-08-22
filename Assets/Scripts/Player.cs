@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
 	// Components
 	CharacterController Controller;
+	Animator Animator;
 
 	// State
 	public enum PlayerState { FREE, HOLD };
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
 	// Movement
 	public float WalkSpeed = 3f;
 	public float RunSpeed = 5f;
+	private bool Flipped = false;
 
 	// Input
 	public float KeyHoldTime = 2f;
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
     void Start()
     {
 		Controller = GetComponent<CharacterController>();
+		Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -40,6 +43,18 @@ public class Player : MonoBehaviour
 		HandleInput();
     }
 
+	private void HandleAnimation(Vector3 velocity)
+	{
+		// Handle walk/run animations
+		Animator?.SetFloat("Speed", velocity.magnitude);
+
+		print(velocity.x);
+
+		// Flip the sprite to face the correct movement direction
+		if (Mathf.Abs(velocity.x) > 0) Flipped = velocity.x < 0;
+		GetComponentInChildren<SpriteRenderer>().flipX = Flipped;
+	}
+
 	private void HandleMovement()
 	{
 		if (State == PlayerState.FREE)
@@ -47,6 +62,9 @@ public class Player : MonoBehaviour
 			// Get movement input
 			Vector3 velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			float speed = velocity.magnitude > .5f ? RunSpeed : WalkSpeed;
+
+			// Handle movement animations
+			HandleAnimation(velocity * speed);
 
 			// Apply velocity to the player
 			Controller.Move(velocity.normalized * speed * Time.deltaTime);

@@ -10,6 +10,7 @@ public class PatientManager : MonoBehaviour
 	private List<Patient> Recovered; // Patients that have recovered
 	private List<Patient> Dead; // Patients that have died
 
+	public int PatientsWaiting = 30;
 	public bool IsActive = true;
 	public int SpawnInterval = 10;
 	private float SpawnTimer = 0;
@@ -24,7 +25,8 @@ public class PatientManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (IsActive)
+		// Only spawn if there are still patients in the waiting room
+		if (IsActive && PatientsWaiting > 0)
 		{
 			// Spawn a new patient every spawn interval
 			if (SpawnTimer >= SpawnInterval)
@@ -43,6 +45,9 @@ public class PatientManager : MonoBehaviour
 
 		if (room != null)
 		{
+			// Decriment number of patients in waiting room
+			PatientsWaiting--;
+
 			// Spawn new patient
 			Patient newPatient = Instantiate<Patient>(DefaultPatient, room.transform.position, Quaternion.identity, room.transform);
 

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 	private CharacterController Controller;
 	private Animator Animator;
 	[HideInInspector] public Emote Emote;
+	public Controls Controls;
 
 	// State
 	public enum PlayerState { FREE, HOLD };
@@ -17,7 +18,9 @@ public class Player : MonoBehaviour
 
 	// Medicine
 	public Medicine Medicine;
-	public Pharmacy CollidingPharmacy;
+	private bool HoldingMedicine;
+	private Pharmacy CollidingPharmacy;
+	public GameObject MedicineUI;
 
 	// Movement
 	public float WalkSpeed = 3f;
@@ -56,7 +59,10 @@ public class Player : MonoBehaviour
 
 		// Zero out stress
 		Stress = 0;
-    }
+
+		// Disable the picked up medicine UI
+		MedicineUI.SetActive(false);
+	}
 
     // Update is called once per frame
     void Update()
@@ -133,7 +139,10 @@ public class Player : MonoBehaviour
 			KeyTimer += Time.deltaTime;
 
 			// If the player holds the button long enough, stop movement
-			if (KeyTimer > KeyPressThreshold) State = PlayerState.HOLD;
+			if (KeyTimer > KeyPressThreshold)
+			{
+				State = PlayerState.HOLD;
+			}
 		}
 
 		// Check for button release
@@ -155,16 +164,12 @@ public class Player : MonoBehaviour
 
 	private void ActionHold()
 	{
+		Controls.ShowHold(false);
+
 		// Pick up medicine from the pharmacy
-		if (CollidingPharmacy != null && Medicine == null)
+		if (CollidingPharmacy != null && !HoldingMedicine)
 		{
-			// Spawn a new medicine object
-			if (CollidingPharmacy.Medicine != null)
-			{
-				var newMedicine = Instantiate(CollidingPharmacy.Medicine, transform);
-				// Attach the new medicine to this player
-				PickUpMedicine(newMedicine);
-			}
+			PickUpMedicine();
 		}
 
 		// Diagnose a patient
@@ -177,10 +182,9 @@ public class Player : MonoBehaviour
 	private void ActionPress()
 	{
 		// Drop/Pick up medicine
-		if (Medicine != null)
+		if (HoldingMedicine)
 		{
-			Medicine.transform.parent = null;
-			Medicine = null;
+			DropMedicine();
 		}
 		else
 		{
@@ -199,29 +203,70 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void PickUpMedicine(Medicine medicine)
+	private void PickUpMedicine(Medicine medicine = null)
 	{
-		Medicine = medicine;
-		medicine.transform.parent = transform;
-		medicine.transform.position = new Vector3(medicine.transform.position.x, medicine.transform.position.y + 1, medicine.transform.position.z);
+		// Destroy the picked up medicine if it exists
+		if (medicine != null) Destroy(medicine.gameObject);
+		HoldingMedicine = true;
+		MedicineUI.SetActive(true);
+
+		// Dismiss the control prompt
+		Controls.ShowPress(false);
+	}
+
+	private void DropMedicine()
+	{
+		// Spawn new medicine and drop it
+		Vector2 randomCircle = Random.insideUnitCircle.normalized;
+		Vector3 dropPosition = new Vector3(transform.position.x + randomCircle.x, 0, transform.position.z + randomCircle.y);
+		Instantiate(Medicine, dropPosition, Quaternion.identity);
+		HoldingMedicine = false;
+		MedicineUI.SetActive(false);
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.GetComponent<Pharmacy>() != null) CollidingPharmacy = other.GetComponent<Pharmacy>();
+		if (other.GetComponent<Medicine>() != null)
+		{
+			Controls.ShowPress(true);
+		}
+		if (other.GetComponent<Pharmacy>() != null)
+		{
+			CollidingPharmacy = other.GetComponent<Pharmacy>();
+			Controls.ShowHold(true);
+		}
 		if (other.GetComponent<RestZone>() != null)
 		{
 			Resting = true;
 			// Display a resting emote
 			Emote?.Display(RestingEmote);
 		}
-		if (other.GetComponent<Patient>() != null) CurrentPatient = other.GetComponent<Patient>();
+		if (other.GetComponent<Patient>() != null)
+		{
+			CurrentPatient = other.GetComponent<Patient>();
+			Controls.ShowHold(true);
+		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.GetComponent<Pharmacy>() != null) CollidingPharmacy = null;
-		if (other.GetComponent<RestZone>() != null) Resting = false;
-		if (other.GetComponent<Patient>() != null) CurrentPatient = null;
+		if (other.GetComponent<Medicine>() != null)
+		{
+			Controls.ShowPress(false);
+		}
+		if (other.GetComponent<Pharmacy>() != null)
+		{
+			CollidingPharmacy = null;
+			Controls.ShowHold(false);
+		}
+		if (other.GetComponent<RestZone>() != null)
+		{
+			Resting = false;
+		}
+		if (other.GetComponent<Patient>() != null)
+		{
+			CurrentPatient = null;
+			Controls.ShowHold(false);
+		}
 	}
 }

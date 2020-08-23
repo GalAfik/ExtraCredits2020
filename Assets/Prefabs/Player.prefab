@@ -148,19 +148,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Emote: {fileID: 0}
-  Medicine: {fileID: 0}
-  CollidingPharmacy: {fileID: 0}
+  Controls: {fileID: 0}
+  Medicine: {fileID: 232899546388261083, guid: c97858b97b3cf1a4d91ad9e5cc8bd83b, type: 3}
   WalkSpeed: 3
   RunSpeed: 6
-  KeyHoldTime: 2
+  KeyHoldTime: 1
   KeyPressThreshold: 0.2
   MaxStress: 30
   StressIncreaseRate: 1
-  StressDecreaseRate: 2
-  RestingEmote: 0
-  HappyEmote: 0
-  SadEmote: 0
-  StressedEmote: 0
+  StressDecreaseRate: 4
+  RestingEmote: 11
+  HappyEmote: 13
+  SadEmote: 14
+  StressedEmote: 8
 --- !u!95 &8612233673304581669
 Animator:
   serializedVersion: 3

@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class Pharmacy : MonoBehaviour
 {
-	public Medicine Medicine;
 }

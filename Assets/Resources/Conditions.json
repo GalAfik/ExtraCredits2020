@@ -1,0 +1,31 @@
+{
+  "high": [
+    "Heart Attack",
+    "Stroke",
+    "Infectious Virus",
+    "Vertebral Fracture",
+    "Respiratory Infection"
+  ],
+  "medium": [
+    "Chest Pain",
+    "Abdominal Pain",
+    "Ankle Fracture",
+    "Collarbone Fracture",
+    "Wrist Fracture",
+    "Shinbone Fracture"
+  ],
+  "low": [
+    "Skin Infection",
+    "Tooth Ache",
+    "Back Pain",
+    "Headache",
+    "Syncope",
+    "Dizziness",
+    "Nausea",
+    "Asthma Attack",
+    "Constipation",
+    "Bronchitis",
+    "Muscle Strain",
+    "Fever"
+  ]
+}

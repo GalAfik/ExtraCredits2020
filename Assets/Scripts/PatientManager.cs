@@ -15,8 +15,12 @@ public class PatientManager : MonoBehaviour
 	public int SpawnInterval = 10;
 	private float SpawnTimer = 0;
 
-    // Start is called before the first frame update
-    void Start()
+	// Patient Spawn percentages
+	[Range(0, 100)] public int PatientHighRiskPercentage = 20;
+	[Range(0, 100)] public int PatientMediumRiskPercentage = 30;
+
+	// Start is called before the first frame update
+	void Start()
     {
 		Patients = new List<Patient>();
 		Recovered = new List<Patient>();
@@ -52,10 +56,16 @@ public class PatientManager : MonoBehaviour
 			Patient newPatient = Instantiate<Patient>(DefaultPatient, room.SpawnPoint.position, Quaternion.identity, room.transform);
 
 			// Randomize patient stats
-			// TODO
+			int conditionIndex = Random.Range(0, 100) + 1;
+			if (conditionIndex <= PatientHighRiskPercentage) newPatient.Initialize(Patient.PatientCondition.HIGH);
+			else if (conditionIndex <= PatientHighRiskPercentage + PatientMediumRiskPercentage) newPatient.Initialize(Patient.PatientCondition.MEDIUM);
+			else newPatient.Initialize(Patient.PatientCondition.LOW);
 
 			// Add patient to list
 			Patients.Add(newPatient);
+
+			// Flip the patient sprite if it is in rooms 4-6
+			if (room.Number >= 4) newPatient.GetComponentInChildren<SpriteRenderer>().flipX = true;
 
 			// Register patient to room
 			room.Patient = newPatient;

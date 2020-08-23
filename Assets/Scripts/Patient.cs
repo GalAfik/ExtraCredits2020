@@ -7,6 +7,7 @@ public class Patient : MonoBehaviour
 {
 	// Components
 	private Animator Animator;
+	private Animator StatsAnimator;
 
 	// Patient resource json file
 	public class PatientNames
@@ -26,6 +27,7 @@ public class Patient : MonoBehaviour
 	private PatientNames Names;
 	public TextAsset jsonConditionNames;
 	private ConditionNames Conditions;
+	[HideInInspector] public Emote Emote;
 
 	// Patient stats
 	public string Name { get; private set; }
@@ -48,10 +50,16 @@ public class Patient : MonoBehaviour
 	private bool HeartsDecreasing = false;
 	private float HeartTimer;
 
+	// Emotes
+	public int RecoveredEmote;
+	public int DeadEmote;
+
 	private void Awake()
 	{
 		// Get components
 		Animator = GetComponent<Animator>();
+		StatsAnimator = StatsLabel?.GetComponent<Animator>();
+		Emote = GetComponentInChildren<Emote>();
 
 		// Read in names and conditions from json files
 		Names = JsonUtility.FromJson<PatientNames>(jsonPatientNames.text);
@@ -69,8 +77,6 @@ public class Patient : MonoBehaviour
 				Hearts--;
 				// Reset timer
 				HeartTimer = HeartDecreaseTime;
-				// Update the stats label
-				StatsLabel?.SetHearts(Hearts);
 				// Change the condition to match the hearts
 				switch (Hearts)
 				{
@@ -84,11 +90,19 @@ public class Patient : MonoBehaviour
 						Condition = PatientCondition.LOW;
 						break;
 				}
+				// Update the stats label
+				StatsLabel?.SetHearts(Hearts);
+				StatsLabel?.SetCondition(Condition);
 			}
 
 			// Decrement timer
 			HeartTimer -= Time.deltaTime;
 		}
+	}
+
+	public void DisplayStats()
+	{
+		StatsAnimator?.SetTrigger("Display");
 	}
 
 	public void Initialize(PatientCondition condition = PatientCondition.LOW)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PatientManager : MonoBehaviour
@@ -40,6 +41,35 @@ public class PatientManager : MonoBehaviour
 			}
 			SpawnTimer += Time.deltaTime;
 		}
+
+		// Handle patient dying and recovering
+		HandlePatientStatus();
+	}
+
+	private void HandlePatientStatus()
+	{
+		// Handle recovered patients
+		var deadPatients = Patients.Where(patient => patient.Hearts == 0).ToList();
+		deadPatients.ForEach(patient => Patients.Remove(patient));
+		deadPatients.ForEach(patient => StartCoroutine(LeaveRoom(patient)));
+		Dead.AddRange(deadPatients);
+
+		// Handle dead patients
+		var recoveredPatients = Patients.Where(patient => patient.Hearts == Patient.MaxHearts).ToList();
+		recoveredPatients.ForEach(patient => Patients.Remove(patient));
+		deadPatients.ForEach(patient => StartCoroutine(LeaveRoom(patient)));
+		Recovered.AddRange(recoveredPatients);
+	}
+
+	private IEnumerator LeaveRoom(Patient patient)
+	{
+		// Display the appropriate emote
+		if (patient.Hearts == 0) patient.Emote?.Display(patient.DeadEmote);
+		else patient.Emote?.Display(patient.RecoveredEmote);
+
+		// Wait before deactivating this patient
+		yield return new WaitForSeconds(2f);
+		patient.gameObject.SetActive(false);
 	}
 
 	private void SpawnPatient()

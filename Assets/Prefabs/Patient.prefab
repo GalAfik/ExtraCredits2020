@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871072022925401218}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.153, y: 0.875, z: 0}
+  m_LocalPosition: {x: 0.13, y: 0.875, z: 0}
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 6901776151210562303}
@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 6901776151210562300}
   - component: {fileID: 2932810650328594283}
   - component: {fileID: 128492928948267893}
+  - component: {fileID: 7341056050825613953}
   m_Layer: 0
   m_Name: Patient
   m_TagString: Untagged
@@ -514,6 +515,7 @@ Transform:
   m_Children:
   - {fileID: 6286308021014461978}
   - {fileID: 7033738922517101760}
+  - {fileID: 4079079001590764722}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -531,8 +533,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jsonPatientNames: {fileID: 4900000, guid: 2c85cf6819bf2cb4aa49f3360a125c1e, type: 3}
   jsonConditionNames: {fileID: 4900000, guid: 5283e173cb5047a4e9fe83ea282c74cc, type: 3}
+  Emote: {fileID: 0}
   StatsLabel: {fileID: 784492641547775624}
   HeartDecreaseTime: 20
+  RecoveredEmote: 26
+  DeadEmote: 25
 --- !u!136 &2932810650328594283
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -566,6 +571,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &7341056050825613953
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6901776151210562302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.4, z: 1.5}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &7173095058578991027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7033738922517101760}
   - component: {fileID: 784492641547775624}
+  - component: {fileID: 4624916967573869120}
   m_Layer: 0
   m_Name: Stats
   m_TagString: Untagged
@@ -1197,6 +1216,25 @@ MonoBehaviour:
   - {fileID: 5640310171269513386}
   - {fileID: 4038976200968380853}
   - {fileID: 1735831573036247666}
+--- !u!95 &4624916967573869120
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8644672524012257942}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0e38ceeb4cb0a9045add1d1dd057d50b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9040543073799330265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,3 +1440,103 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
+--- !u!1001 &2655731165457931000
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6901776151210562303}
+    m_Modifications:
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.698
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450244715883751391, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450244715883751391, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450244715883751391, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450244715883751391, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355511105715591505, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_Name
+      value: Emote
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223162122892869848, guid: 260464f14199c1d4aa67ca642b9f5d90,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 260464f14199c1d4aa67ca642b9f5d90, type: 3}
+--- !u!4 &4079079001590764722 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2035840138530999882, guid: 260464f14199c1d4aa67ca642b9f5d90,
+    type: 3}
+  m_PrefabInstance: {fileID: 2655731165457931000}
+  m_PrefabAsset: {fileID: 0}

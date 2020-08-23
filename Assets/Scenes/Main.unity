@@ -11368,5 +11368,15 @@ PrefabInstance:
       propertyPath: StressedEmote
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8903114603689530430, guid: 77fc42fa93c27fb4688c88111495bcad,
+        type: 3}
+      propertyPath: StressDecreaseRate
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903114603689530430, guid: 77fc42fa93c27fb4688c88111495bcad,
+        type: 3}
+      propertyPath: KeyHoldTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77fc42fa93c27fb4688c88111495bcad, type: 3}

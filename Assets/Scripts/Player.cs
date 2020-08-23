@@ -44,6 +44,9 @@ public class Player : MonoBehaviour
 	public int SadEmote;
 	public int StressedEmote;
 
+	// Patient near player
+	private Patient CurrentPatient;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +77,7 @@ public class Player : MonoBehaviour
 		if (Stress < 0) Stress = 0;
 
 		// Display an emote when the player reaches different levels of stress
-		if (Stress == MaxStress) Emote.Display(StressedEmote);
+		if (Stress == MaxStress) Emote?.Display(StressedEmote);
 	}
 
 	private void HandleAnimation(Vector3 velocity)
@@ -163,6 +166,12 @@ public class Player : MonoBehaviour
 				PickUpMedicine(newMedicine);
 			}
 		}
+
+		// Diagnose a patient
+		if (CurrentPatient != null)
+		{
+			CurrentPatient.DisplayStats();
+		}
 	}
 
 	private void ActionPress()
@@ -204,13 +213,15 @@ public class Player : MonoBehaviour
 		{
 			Resting = true;
 			// Display a resting emote
-			Emote.Display(RestingEmote);
+			Emote?.Display(RestingEmote);
 		}
+		if (other.GetComponent<Patient>() != null) CurrentPatient = other.GetComponent<Patient>();
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.GetComponent<Pharmacy>() != null) CollidingPharmacy = null;
 		if (other.GetComponent<RestZone>() != null) Resting = false;
+		if (other.GetComponent<Patient>() != null) CurrentPatient = null;
 	}
 }

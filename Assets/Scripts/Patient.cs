@@ -11,6 +11,7 @@ public class Patient : MonoBehaviour
 	// Patient resource json file
 	public class PatientNames
 	{
+		public string[] family;
 		public string[] male;
 		public string[] female;
 	}
@@ -40,7 +41,7 @@ public class Patient : MonoBehaviour
 
 	// Health
 	public static int MaxHearts = 4;
-	public int Hearts { get; private set; }
+	public int Hearts;
 
 	private void Awake()
 	{
@@ -58,13 +59,14 @@ public class Patient : MonoBehaviour
 		Sex = (PatientSex) UnityEngine.Random.Range(0, Enum.GetValues(typeof(PatientSex)).Length);
 
 		// Set Name based on Sex
+		Name = Names.family[UnityEngine.Random.Range(0, Names.family.Length)] + ", ";
 		switch (Sex)
 		{
 			case PatientSex.M:
-				Name = Names.male[UnityEngine.Random.Range(0, Names.male.Length)];
+				Name += Names.male[UnityEngine.Random.Range(0, Names.male.Length)];
 				break;
 			case PatientSex.F:
-				Name = Names.female[UnityEngine.Random.Range(0, Names.female.Length)];
+				Name += Names.female[UnityEngine.Random.Range(0, Names.female.Length)];
 				break;
 		}
 
@@ -120,5 +122,16 @@ public class Patient : MonoBehaviour
 		StatsLabel?.SetDetails(Sex, Age);
 		StatsLabel?.SetCondition(Condition);
 		StatsLabel?.SetConditionName(ConditionName);
+		StatsLabel?.SetHearts(Hearts);
+	}
+
+	public void SetHearts(int hearts)
+	{
+		Debug.Assert(hearts >= 0 && hearts <= MaxHearts);
+
+		// Set the new value
+		Hearts = hearts;
+		// Update the stats label
+		StatsLabel?.SetHearts(Hearts);
 	}
 }

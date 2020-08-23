@@ -8,24 +8,26 @@ public class GameManager : MonoBehaviour
 	public RoomManager RoomManager;
 	public StressEffect StressEffect;
 	public Player Player;
-	public TimeBar TimeBar;
+	public ShiftClock Clock;
 
 	public float MaxTime = 120f;
 	private float Timer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-		// Set Timer
-		TimeBar.SetMaxTime(MaxTime);
-		Timer = 0;
-    }
+	public bool Cheats = false;
 
-    // Update is called once per frame
-    void Update()
+	private void Start()
+	{
+		// Set the timer
+		Timer = MaxTime;
+	}
+
+	// Update is called once per frame
+	void Update()
     {
+		HandleCheats();
+
 		// Handle time running out
-		if (Timer >= MaxTime)
+		if (Timer <= 0)
 		{
 			// TODO ---------------------
 
@@ -35,11 +37,20 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			// Increment Timer
-			Timer += Time.deltaTime;
-			TimeBar.SetTime(Timer);
+			Timer -= Time.deltaTime;
+			Clock?.SetTime(Timer);
 		}
 
 		// Set the stress effect in the post processing volume
 		StressEffect?.SetStressEffect(Player.Stress, Player.MaxStress);
+	}
+
+	private void HandleCheats()
+	{
+		if (Cheats)
+		{
+			if (Input.GetKey(KeyCode.F)) Time.timeScale = 5;
+			else Time.timeScale = 1;
+		}
 	}
 }

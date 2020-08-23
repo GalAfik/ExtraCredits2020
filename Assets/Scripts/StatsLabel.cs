@@ -11,6 +11,11 @@ public class StatsLabel : MonoBehaviour
 	public TMP_Text RiskLabel;
 	public TMP_Text ConditionLabel;
 
+	// Hearts
+	public Sprite FullHeart;
+	public Sprite EmptyHeart;
+	public SpriteRenderer[] Hearts;
+
 	public void SetName(string name)
 	{
 		NameLabel?.SetText(name);
@@ -44,5 +49,20 @@ public class StatsLabel : MonoBehaviour
 	public void SetConditionName(string condition)
 	{
 		ConditionLabel?.SetText(condition);
+	}
+
+	public void SetHearts(int fullHearts)
+	{
+		// Set full hearts
+		for (int i = 0; i < fullHearts; i++)
+		{
+			Hearts[i].sprite = FullHeart;
+		}
+
+		// Set empty hearts
+		for (int i = fullHearts; i < Hearts.Length; i++)
+		{
+			Hearts[i].sprite = EmptyHeart;
+		}
 	}
 }

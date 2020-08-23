@@ -53,6 +53,8 @@ public class StatsLabel : MonoBehaviour
 
 	public void SetHearts(int fullHearts)
 	{
+		Debug.Assert(fullHearts >= 0);
+
 		// Set full hearts
 		for (int i = 0; i < fullHearts; i++)
 		{

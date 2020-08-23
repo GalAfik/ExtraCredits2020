@@ -44,10 +44,8 @@ public class Patient : MonoBehaviour
 	public int Hearts { get; private set; }
 
 	// Patient heart decrease time
-	public float HeartDecreaseTime_Low = 20f;
-	public float HeartDecreaseTime_Medium = 15f;
-	public float HeartDecreaseTime_High = 10f;
-	private float HeartDecreaseTime;
+	public float HeartDecreaseTime = 20f;
+	private bool HeartsDecreasing = false;
 	private float HeartTimer;
 
 	private void Awake()
@@ -58,25 +56,36 @@ public class Patient : MonoBehaviour
 		// Read in names and conditions from json files
 		Names = JsonUtility.FromJson<PatientNames>(jsonPatientNames.text);
 		Conditions = JsonUtility.FromJson<ConditionNames>(jsonConditionNames.text);
-
-		// Zero out heart decrease timer
-		HeartTimer = 0;
 	}
 
 	private void Update()
 	{
 		// Handle heart loss
-		if (HeartTimer <= 0 && Hearts > 0)
+		if (HeartsDecreasing)
 		{
-			// Decrement hearts
-			Hearts--;
-			// Reset timer
-			HeartTimer = HeartDecreaseTime;
-			// Update the stats label
-			StatsLabel?.SetHearts(Hearts);
-		}
-		else if (HeartDecreaseTime != 0) // Make sure that the object has been initialized first
-		{
+			if (HeartTimer <= 0 && Hearts > 0)
+			{
+				// Decrement hearts
+				Hearts--;
+				// Reset timer
+				HeartTimer = HeartDecreaseTime;
+				// Update the stats label
+				StatsLabel?.SetHearts(Hearts);
+				// Change the condition to match the hearts
+				switch (Hearts)
+				{
+					case 1:
+						Condition = PatientCondition.HIGH;
+						break;
+					case 2:
+						Condition = PatientCondition.MEDIUM;
+						break;
+					case 3:
+						Condition = PatientCondition.LOW;
+						break;
+				}
+			}
+
 			// Decrement timer
 			HeartTimer -= Time.deltaTime;
 		}
@@ -129,25 +138,26 @@ public class Patient : MonoBehaviour
 		// Set condition
 		Condition = condition;
 
-		// Set condition name and heart decrease time based on condition
+		// Set condition name based on condition
 		switch (Condition)
 		{
 			case PatientCondition.LOW:
 				ConditionName = Conditions.low[UnityEngine.Random.Range(0, Conditions.low.Length)];
-				HeartDecreaseTime = HeartDecreaseTime_Low;
 				break;
 			case PatientCondition.MEDIUM:
 				ConditionName = Conditions.medium[UnityEngine.Random.Range(0, Conditions.medium.Length)];
-				HeartDecreaseTime = HeartDecreaseTime_Medium;
 				break;
 			case PatientCondition.HIGH:
 				ConditionName = Conditions.high[UnityEngine.Random.Range(0, Conditions.high.Length)];
-				HeartDecreaseTime = HeartDecreaseTime_High;
 				break;
 		}
 
 		// Set hearts based on condition
 		Hearts = MaxHearts - (int) Condition;
+
+		// Start the heart decrease timer
+		HeartsDecreasing = true;
+		HeartTimer = HeartDecreaseTime;
 
 		// Set the labels
 		StatsLabel?.SetName(Name);

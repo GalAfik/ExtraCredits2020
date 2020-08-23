@@ -532,6 +532,7 @@ MonoBehaviour:
   jsonPatientNames: {fileID: 4900000, guid: 2c85cf6819bf2cb4aa49f3360a125c1e, type: 3}
   jsonConditionNames: {fileID: 4900000, guid: 5283e173cb5047a4e9fe83ea282c74cc, type: 3}
   StatsLabel: {fileID: 784492641547775624}
+  HeartDecreaseTime: 20
 --- !u!136 &2932810650328594283
 CapsuleCollider:
   m_ObjectHideFlags: 0

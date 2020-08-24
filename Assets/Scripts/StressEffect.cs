@@ -25,6 +25,10 @@ public class StressEffect : MonoBehaviour
 	private LensDistortion LensDistortion;
 	private float LensDistortionIntensity;
 
+	// Chromatic Abberation
+	private ChromaticAberration ChromaticAberration;
+	private float ChromaticAberrationIntensity;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -33,21 +37,24 @@ public class StressEffect : MonoBehaviour
 		Volume.profile.TryGet(out Vignette);
 		Volume.profile.TryGet(out ColorAdjustments);
 		Volume.profile.TryGet(out LensDistortion);
+		Volume.profile.TryGet(out ChromaticAberration);
 
 		// Get the initial values
 		BloomIntensity = Bloom.intensity.value;
 		VignetteIntensity = Vignette.intensity.value;
 		ColorAdjustmentSaturation = ColorAdjustments.saturation.value;
 		LensDistortionIntensity = LensDistortion.intensity.value;
+		ChromaticAberrationIntensity = ChromaticAberration.intensity.value;
 	}
 
 	public void SetStressEffect(float stress, float maxStress)
 	{
 		// Set the effects
-		Bloom.intensity.value = Remap(stress, 0, maxStress, BloomIntensity, 20);
-		Vignette.intensity.value = Remap(stress, 0, maxStress, VignetteIntensity, 0.8f);
+		Bloom.intensity.value = Remap(stress, 0, maxStress, BloomIntensity, 50);
+		Vignette.intensity.value = Remap(stress, 0, maxStress, VignetteIntensity, 0.6f);
 		ColorAdjustments.saturation.value = Remap(stress, 0, maxStress, ColorAdjustmentSaturation, -100);
 		LensDistortion.intensity.value = Remap(stress, 0, maxStress, LensDistortionIntensity, -0.8f);
+		ChromaticAberration.intensity.value = Remap(stress, 0, maxStress, ChromaticAberrationIntensity, 1);
 	}
 
 	private float Remap(float value, float from1, float to1, float from2, float to2)

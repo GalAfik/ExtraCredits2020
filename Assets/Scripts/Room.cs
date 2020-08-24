@@ -8,6 +8,7 @@ public class Room : MonoBehaviour
 	public Door Door;
 	public Transform SpawnPoint;
 	public int Number;
+	public bool IsPlayerInRoom;
 	public bool IsOccupied
 	{
 		get
@@ -51,5 +52,21 @@ public class Room : MonoBehaviour
 	{
 		// Set the label text
 		Label.text = Number.ToString();
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.GetComponent<Player>() != null)
+		{
+			IsPlayerInRoom = true;
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.GetComponent<Player>() != null)
+		{
+			IsPlayerInRoom = false;
+		}
 	}
 }

@@ -12,10 +12,6 @@ public class Player : MonoBehaviour
 	[HideInInspector] public Emote Emote;
 	public Controls Controls;
 
-	// State
-	public enum PlayerState { FREE, HOLD };
-	private PlayerState State = PlayerState.FREE;
-
 	// Medicine
 	public Medicine Medicine;
 	private bool HoldingMedicine;
@@ -26,6 +22,8 @@ public class Player : MonoBehaviour
 	public float WalkSpeed = 3f;
 	public float RunSpeed = 5f;
 	private bool Flipped = false;
+	public bool CanMove;
+	private Vector3 Velocity;
 
 	// Input
 	public float KeyHoldTime = 2f;
@@ -67,7 +65,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		HandleMovement();
+		if (CanMove) HandleMovement();
 		HandleInput();
 		HandleStress();
     }
@@ -76,6 +74,7 @@ public class Player : MonoBehaviour
 	{
 		// Change stress level
 		if (Resting) Stress -= StressDecreaseRate * Time.deltaTime;
+		else if (Velocity.magnitude == 0) Stress -= Time.deltaTime;
 		else Stress += StressIncreaseRate * Time.deltaTime;
 
 		// Insure Stress bounds
@@ -89,7 +88,8 @@ public class Player : MonoBehaviour
 	private void HandleAnimation(Vector3 velocity)
 	{
 		// Handle walk/run animations
-		Animator?.SetFloat("Speed", velocity.magnitude);
+		if (Stress >= MaxStress) Animator?.SetFloat("Speed", velocity.magnitude / 2);
+		else Animator?.SetFloat("Speed", velocity.magnitude);
 
 		// Flip the sprite to face the correct movement direction
 		if (Mathf.Abs(velocity.x) > 0) Flipped = velocity.x < 0;
@@ -98,21 +98,21 @@ public class Player : MonoBehaviour
 
 	private void HandleMovement()
 	{
-		if (State == PlayerState.FREE)
-		{
-			// Get movement input
-			Vector3 velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			float speed = velocity.magnitude > .5f ? RunSpeed : WalkSpeed;
+		// Get movement input
+		Velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		float speed = Velocity.magnitude > .5f ? RunSpeed : WalkSpeed;
 
-			// Handle movement animations
-			HandleAnimation(velocity * speed);
+		// Limit player to walking if under too much stress
+		if (Stress >= MaxStress) speed = WalkSpeed;
 
-			// Apply velocity to the player
-			Controller.Move(velocity.normalized * speed * Time.deltaTime);
+		// Handle movement animations
+		HandleAnimation(Velocity.normalized * speed);
 
-			// Apply gravity to player
-			if (Controller.isGrounded == false) Controller.Move(Physics.gravity * Time.deltaTime);
-		}
+		// Apply velocity to the player
+		Controller.Move(Velocity.normalized * speed * Time.deltaTime);
+
+		// Apply gravity to player
+		if (Controller.isGrounded == false) Controller.Move(Physics.gravity * Time.deltaTime);
 	}
 
 	private void HandleInput()
@@ -126,7 +126,6 @@ public class Player : MonoBehaviour
 			// Reset Timer
 			KeyTimer = 0;
 			HoldFired = true;
-			State = PlayerState.FREE;
 
 			// Skip the rest of the input
 			return;
@@ -137,12 +136,6 @@ public class Player : MonoBehaviour
 		{
 			// Holding down button
 			KeyTimer += Time.deltaTime;
-
-			// If the player holds the button long enough, stop movement
-			if (KeyTimer > KeyPressThreshold)
-			{
-				State = PlayerState.HOLD;
-			}
 		}
 
 		// Check for button release
@@ -158,7 +151,6 @@ public class Player : MonoBehaviour
 			// Reset timer
 			KeyTimer = 0;
 			HoldFired = false;
-			State = PlayerState.FREE;
 		}
 	}
 
@@ -167,20 +159,20 @@ public class Player : MonoBehaviour
 		Controls.ShowHold(false);
 
 		// Pick up medicine from the pharmacy
-		if (CollidingPharmacy != null && !HoldingMedicine)
-		{
-			PickUpMedicine();
-		}
+		if (CollidingPharmacy != null && !HoldingMedicine) PickUpMedicine();
 
 		// Diagnose a patient
-		if (CurrentPatient != null)
-		{
-			CurrentPatient.DisplayStats();
-		}
+		if (CurrentPatient != null) CurrentPatient.DisplayStats();
 	}
 
 	private void ActionPress()
 	{
+		// Give patient medicine
+		if (CurrentPatient != null && HoldingMedicine)
+		{
+			GiveMedicine(CurrentPatient);
+		}
+
 		// Drop/Pick up medicine
 		if (HoldingMedicine)
 		{
@@ -221,6 +213,16 @@ public class Player : MonoBehaviour
 		Vector3 dropPosition = new Vector3(transform.position.x + randomCircle.x, 0, transform.position.z + randomCircle.y);
 		Instantiate(Medicine, dropPosition, Quaternion.identity);
 		HoldingMedicine = false;
+		MedicineUI.SetActive(false);
+	}
+
+	private void GiveMedicine(Patient patient)
+	{
+		HoldingMedicine = false;
+		patient.TakeMedicine();
+
+		// UI
+		Controls.ShowPress(false);
 		MedicineUI.SetActive(false);
 	}
 

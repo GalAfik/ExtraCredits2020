@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,40 +12,97 @@ public class GameManager : MonoBehaviour
 	public StressEffect StressEffect;
 	public Player Player;
 	public ShiftClock Clock;
+	public Transition Transition;
 
+	// Game vars
 	public float MaxTime = 120f;
 	private float Timer;
+	private bool IsPlaying;
 
+	// Settings
+	public string Day;
+	public TMP_Text DayLabel;
+	public string Date;
+	public TMP_Text DateLabel;
+	public TMP_Text DeadCountLabel;
+	public string InspiringMessage;
+	public TMP_Text InspiringMessageLabel;
+
+	// Extras
 	public bool Cheats = false;
 
 	private void Start()
 	{
 		// Set the timer
 		Timer = MaxTime;
+
+		// Set the starting transition text
+		DayLabel.SetText(Day);
+		DateLabel.SetText(Date);
+		InspiringMessageLabel.SetText(InspiringMessage);
+	}
+
+	public void StartLevel()
+	{
+		IsPlaying = true;
+		Player.CanMove = true;
+	}
+
+	public void EndLevel()
+	{
+		IsPlaying = false;
+
+		// Add dead patients to the datacollector master lists
+		DataCollector dataCollector = FindObjectOfType<DataCollector>();
+		int deadPatientsCount = PatientManager.Dead.Count + PatientManager.PatientsWaiting + PatientManager.Patients.Count;
+		dataCollector.DeadPatients += deadPatientsCount;
+		dataCollector?.RecoveredPatients.AddRange(PatientManager.Recovered);
+
+		// Set the Dead patient count in the transition
+		DeadCountLabel.SetText(deadPatientsCount.ToString("D3"));
+
+		// Start the ending animation
+		Transition?.GetComponent<Animator>()?.SetTrigger("End");
+	}
+
+	public void GoToNextLevel()
+	{
+		// Go to the next level
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
 	// Update is called once per frame
 	void Update()
     {
-		HandleCheats();
-
-		// Handle time running out
-		if (Timer <= 0)
+		if (IsPlaying)
 		{
-			// TODO ---------------------
+			HandleCheats();
 
-			// Turn off the patient manager
-			PatientManager.IsActive = false;
+			// Handle time running out
+			if (Timer <= 0)
+			{
+				// End the level
+				EndLevel();
+
+				// Turn off the patient manager
+				PatientManager.IsActive = false;
+			}
+			else
+			{
+				// Increment Timer
+				Timer -= Time.deltaTime;
+				Clock?.SetTime(Timer);
+			}
+
+			// Set the stress effect in the post processing volume
+			StressEffect?.SetStressEffect(Player.Stress, Player.MaxStress);
 		}
-		else
+
+		// Press escape to quit the game
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			// Increment Timer
-			Timer -= Time.deltaTime;
-			Clock?.SetTime(Timer);
+			Application.Quit();
 		}
-
-		// Set the stress effect in the post processing volume
-		StressEffect?.SetStressEffect(Player.Stress, Player.MaxStress);
 	}
 
 	private void HandleCheats()

@@ -6,13 +6,19 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
 	public string WebsiteURL;
+	public Canvas Transition;
 
-	public static void Play()
+	public void Play()
+	{
+		Transition.GetComponent<Animator>().SetTrigger("StartGame");
+	}
+
+	public void StartGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
-	public static void Quit()
+	public void Quit()
 	{
 		Application.Quit();
 	}

@@ -68,6 +68,10 @@ public class Patient : MonoBehaviour
 
 	private void Update()
 	{
+		// Set Heart boundaries
+		if (Hearts < 0) Hearts = 0;
+		else if (Hearts > MaxHearts) Hearts = MaxHearts;
+
 		// Handle heart loss
 		if (HeartsDecreasing)
 		{
@@ -77,27 +81,45 @@ public class Patient : MonoBehaviour
 				Hearts--;
 				// Reset timer
 				HeartTimer = HeartDecreaseTime;
-				// Change the condition to match the hearts
-				switch (Hearts)
-				{
-					case 1:
-						Condition = PatientCondition.HIGH;
-						break;
-					case 2:
-						Condition = PatientCondition.MEDIUM;
-						break;
-					case 3:
-						Condition = PatientCondition.LOW;
-						break;
-				}
-				// Update the stats label
-				StatsLabel?.SetHearts(Hearts);
-				StatsLabel?.SetCondition(Condition);
+				// Update the hearts and condition
+				UpdateCondition();
 			}
 
 			// Decrement timer
 			HeartTimer -= Time.deltaTime;
 		}
+	}
+
+	private void UpdateCondition()
+	{
+		// Change the condition to match the hearts
+		switch (Hearts)
+		{
+			case 1:
+				Condition = PatientCondition.HIGH;
+				break;
+			case 2:
+				Condition = PatientCondition.MEDIUM;
+				break;
+			case 3:
+				Condition = PatientCondition.LOW;
+				break;
+		}
+		// Update the stats label
+		StatsLabel?.SetHearts(Hearts);
+		StatsLabel?.SetCondition(Condition);
+	}
+
+	public void TakeMedicine()
+	{
+		// Increase hearts
+		Hearts++;
+		// Stabilize the patient
+		HeartTimer = HeartDecreaseTime;
+		// Update the condition and labels
+		UpdateCondition();
+		// Display Emote
+		if (Hearts == MaxHearts) Emote?.Display(RecoveredEmote);
 	}
 
 	public void DisplayStats()

@@ -9,4 +9,3 @@ Stampwriter-Kit font by  Colm Clafferty
 LCD by copypaste
 
 button assets by greatdocbrown
-keyboard sprites by Gerald Burke

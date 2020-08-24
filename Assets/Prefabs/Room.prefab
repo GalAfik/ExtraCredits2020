@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ClosedRotation: 180
-  OpenRotation: -45
+  OpenRotation: 45
 --- !u!1 &4114963630566252999
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,16 +71,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8301528266544568256}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8301528266545708870}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.01}
+  m_AnchoredPosition: {x: 2.07, y: 2.08}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8301528266544568267
@@ -101,7 +101,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: -8024830140178610289, guid: 079efa617a957234085478a6dfd3a39a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,8 +158,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 079efa617a957234085478a6dfd3a39a, type: 2}
+  m_sharedMaterial: {fileID: -8024830140178610289, guid: 079efa617a957234085478a6dfd3a39a,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -184,8 +185,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -258,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8301528266545708870}
   - component: {fileID: 8301528266545708871}
+  - component: {fileID: 4951008544457999295}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -296,8 +298,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Door: {fileID: 420915349}
   SpawnPoint: {fileID: 3088780928117755807}
-  Number: 1
+  Number: 2
+  playerInRoom: 0
   Label: {fileID: 8301528266544568262}
+--- !u!65 &4951008544457999295
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8301528266545708864}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.810095, y: 1, z: 7.94938}
+  m_Center: {x: -0.105620384, y: 0.5, z: 0.12119627}
 --- !u!1001 &8849702699033107568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -308,7 +324,7 @@ PrefabInstance:
     - target: {fileID: 4301250991707309307, guid: 76970209688c02f40802f8b5271d8c94,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8590002
+      value: 2.95
       objectReference: {fileID: 0}
     - target: {fileID: 4301250991707309307, guid: 76970209688c02f40802f8b5271d8c94,
         type: 3}

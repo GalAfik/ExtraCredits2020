@@ -12,7 +12,7 @@ public class PatientManager : MonoBehaviour
 	[HideInInspector] public List<Patient> Dead; // Patients that have died
 
 	public int PatientsWaiting = 30;
-	public bool IsActive = true;
+	public bool IsActive = false;
 	public int SpawnInterval = 10;
 	private float SpawnTimer = 0;
 
@@ -89,6 +89,10 @@ public class PatientManager : MonoBehaviour
 
 			// Notify the player to the new patient
 			FindObjectOfType<Player>()?.Emote.Display(0, room.Number);
+			FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.BUZZ);
+
+			// Play the third message
+			FindObjectOfType<AudioManager>()?.Play("message3");
 		}
 	}
 }

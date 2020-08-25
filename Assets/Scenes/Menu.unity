@@ -869,9 +869,11 @@ MonoBehaviour:
   - name: theme
     category: 0
     clip: {fileID: 8300000, guid: 31c92f0b9ea1a234c9ed628fff06e81d, type: 3}
-    volume: 0.2
+    volume: 0.15
     pitch: 1
     loop: 1
+    playOnce: 0
+    played: 0
     source: {fileID: 0}
   - name: buzz1
     category: 1
@@ -879,6 +881,8 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     loop: 0
+    playOnce: 0
+    played: 0
     source: {fileID: 0}
   - name: buzz2
     category: 1
@@ -886,69 +890,152 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     loop: 0
+    playOnce: 0
+    played: 0
     source: {fileID: 0}
   - name: message1
     category: 2
     clip: {fileID: 8300000, guid: f845f08c4250281449cebec483534d18, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message2
     category: 2
     clip: {fileID: 8300000, guid: 2268e838717fe6440a8894e02c2b266f, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message3
     category: 2
     clip: {fileID: 8300000, guid: add2ef9c66730f845a754b26579f7c99, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message4
     category: 2
     clip: {fileID: 8300000, guid: 8ffa195c16eaef94a868574bb764a1a8, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message5
     category: 2
     clip: {fileID: 8300000, guid: 889e8f5e42b40a4489fcfa4a6dede600, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message6
     category: 2
     clip: {fileID: 8300000, guid: b8f3f39aab420c846bf8bafd312cd0f9, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message7
     category: 2
     clip: {fileID: 8300000, guid: d136bf8d3449fda408fdfabf83ae7aee, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message8
     category: 2
     clip: {fileID: 8300000, guid: 32acf7c9928514141a63cbb7fcfddc50, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
     source: {fileID: 0}
   - name: message9
     category: 2
     clip: {fileID: 8300000, guid: 29bd51f3e47435b4b8d096f93c54fbf7, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     loop: 0
+    playOnce: 1
+    played: 0
+    source: {fileID: 0}
+  - name: action1
+    category: 3
+    clip: {fileID: 8300000, guid: 61632cc7c2311f34596bf37fba518288, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: action2
+    category: 3
+    clip: {fileID: 8300000, guid: a51ce1e8ad750b14986a2c3eb0bf0474, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: action3
+    category: 3
+    clip: {fileID: 8300000, guid: e2e0eb94a292a044397cdca3795dd1b5, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: action4
+    category: 3
+    clip: {fileID: 8300000, guid: 59f7f2f11af17cd418796418e11a3d05, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: button
+    category: 4
+    clip: {fileID: 8300000, guid: a83e50b0b67f2f34e870189b2034621c, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: success1
+    category: 5
+    clip: {fileID: 8300000, guid: f0d44789878932643bdee6bc6602c1f3, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
+    source: {fileID: 0}
+  - name: success2
+    category: 5
+    clip: {fileID: 8300000, guid: 9987f1a5394135449af5204a1109d5d3, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnce: 0
+    played: 0
     source: {fileID: 0}
 --- !u!4 &677999187
 Transform:

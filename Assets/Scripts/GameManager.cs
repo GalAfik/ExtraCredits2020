@@ -36,16 +36,35 @@ public class GameManager : MonoBehaviour
 		// Set the timer
 		Timer = MaxTime;
 
+		// Open the pharmacy immediately if not on the tutorial level
+		if (SceneManager.GetActiveScene().name!= "Level1")
+		{
+			FindObjectOfType<Pharmacy>().IsOpen = true;
+		}
+
 		// Set the starting transition text
 		DayLabel.SetText(Day);
 		DateLabel.SetText(Date);
 		InspiringMessageLabel.SetText(InspiringMessage);
+
+		// Play the first message
+		FindObjectOfType<AudioManager>()?.Play("message1");
 	}
 
 	public void StartLevel()
 	{
 		IsPlaying = true;
 		Player.CanMove = true;
+
+		Invoke("StartPatientManager", 5f);
+	}
+
+	private void StartPatientManager()
+	{
+		PatientManager.IsActive = true;
+
+		// Play the second message
+		FindObjectOfType<AudioManager>()?.Play("message2");
 	}
 
 	public void EndLevel()
@@ -63,6 +82,9 @@ public class GameManager : MonoBehaviour
 
 		// Start the ending animation
 		Transition?.GetComponent<Animator>()?.SetTrigger("End");
+
+		// Play a message
+		FindObjectOfType<AudioManager>()?.Play("message9");
 	}
 
 	public void GoToNextLevel()

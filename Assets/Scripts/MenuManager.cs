@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour
 	public void Play()
 	{
 		Transition.GetComponent<Animator>().SetTrigger("StartGame");
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.BUTTON);
 	}
 
 	public void StartGame()
@@ -26,5 +28,7 @@ public class MenuManager : MonoBehaviour
 	public void Website()
 	{
 		Application.OpenURL(WebsiteURL);
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.BUTTON);
 	}
 }

@@ -47,7 +47,16 @@ public class AudioManager : MonoBehaviour
 	{
 		Sound sound = Array.Find(Sounds, s => s.name == name);
 		if (sound == null) throw new System.Exception("Sound clip '" + sound.name + "' could not be found.");
-		else sound.source?.Play();
+		else
+		{
+			// Make sure to only played sounds that have not been played more than once, if restricted
+			if (sound.playOnce && sound.played) return;
+			else
+			{
+				sound.source?.Play();
+				sound.played = true;
+			}
+		}
 	}
 
 	public void Play(Sound.SoundCategory category)
@@ -56,6 +65,15 @@ public class AudioManager : MonoBehaviour
 		Sound[] sounds = Sounds.Where(s => s.category == category).ToArray();
 		Sound randomSound = sounds[UnityEngine.Random.Range(0, sounds.Length)];
 		if (randomSound == null) throw new System.Exception("Sound clip of type '" + randomSound.category + "' could not be found.");
-		else randomSound.source?.Play();
+		else
+		{
+			// Make sure to only played sounds that have not been played more than once, if restricted
+			if (randomSound.playOnce && randomSound.played) return;
+			else
+			{
+				randomSound.source?.Play();
+				randomSound.played = true;
+			}
+		}
 	}
 }

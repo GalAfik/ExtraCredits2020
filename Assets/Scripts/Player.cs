@@ -82,7 +82,12 @@ public class Player : MonoBehaviour
 		if (Stress < 0) Stress = 0;
 
 		// Display an emote when the player reaches different levels of stress
-		if (Stress == MaxStress) Emote?.Display(StressedEmote);
+		if (Stress == MaxStress)
+		{
+			Emote?.Display(StressedEmote);
+			// Play a message
+			FindObjectOfType<AudioManager>()?.Play("message8");
+		}
 	}
 
 	private void HandleAnimation(Vector3 velocity)
@@ -159,7 +164,13 @@ public class Player : MonoBehaviour
 		Controls.ShowHold(false);
 
 		// Pick up medicine from the pharmacy
-		if (CollidingPharmacy != null && !HoldingMedicine) PickUpMedicine();
+		if (CollidingPharmacy != null && CollidingPharmacy.IsOpen && !HoldingMedicine)
+		{
+			PickUpMedicine();
+
+			// Play a message
+			FindObjectOfType<AudioManager>()?.Play("message6");
+		}
 
 		// Diagnose a patient
 		if (CurrentPatient != null) CurrentPatient.DisplayStats();
@@ -204,16 +215,20 @@ public class Player : MonoBehaviour
 
 		// Dismiss the control prompt
 		Controls.ShowPress(false);
+
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.ACTION);
 	}
 
 	private void DropMedicine()
 	{
 		// Spawn new medicine and drop it
-		Vector2 randomCircle = Random.insideUnitCircle.normalized;
-		Vector3 dropPosition = new Vector3(transform.position.x + randomCircle.x, 0, transform.position.z + randomCircle.y);
-		Instantiate(Medicine, dropPosition, Quaternion.identity);
+		Instantiate(Medicine, transform.position, Quaternion.identity);
 		HoldingMedicine = false;
 		MedicineUI.SetActive(false);
+
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.ACTION);
 	}
 
 	private void GiveMedicine(Patient patient)
@@ -224,6 +239,12 @@ public class Player : MonoBehaviour
 		// UI
 		Controls.ShowPress(false);
 		MedicineUI.SetActive(false);
+
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.ACTION);
+
+		// Play a message
+		FindObjectOfType<AudioManager>()?.Play("message7");
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -242,6 +263,8 @@ public class Player : MonoBehaviour
 			Resting = true;
 			// Display a resting emote
 			Emote?.Display(RestingEmote);
+			// Play a sound
+			FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.ACTION);
 		}
 		if (other.GetComponent<Patient>() != null)
 		{

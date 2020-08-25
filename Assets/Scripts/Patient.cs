@@ -119,12 +119,32 @@ public class Patient : MonoBehaviour
 		// Update the condition and labels
 		UpdateCondition();
 		// Display Emote
-		if (Hearts == MaxHearts) Emote?.Display(RecoveredEmote);
+		if (Hearts == MaxHearts)
+		{
+			Emote?.Display(RecoveredEmote);
+			// Play a sound
+			FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.SUCCESS);
+		}
 	}
 
 	public void DisplayStats()
 	{
 		StatsAnimator?.SetTrigger("Display");
+
+		// Play a sound
+		FindObjectOfType<AudioManager>()?.Play(Sound.SoundCategory.ACTION);
+
+		// Play a message
+		FindObjectOfType<AudioManager>()?.Play("message4");
+		Invoke("PlayPharmacyMessage", 9f);
+	}
+
+	private void PlayPharmacyMessage()
+	{
+		// Open the pharmacy
+		FindObjectOfType<Pharmacy>().IsOpen = true;
+		// Play a message
+		FindObjectOfType<AudioManager>()?.Play("message5");
 	}
 
 	public void Initialize(PatientCondition condition = PatientCondition.LOW)

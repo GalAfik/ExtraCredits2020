@@ -9,7 +9,7 @@ public class Sound
 {
 	public string name;
 
-	public enum SoundCategory { THEME, BUZZ, MESSAGE };
+	public enum SoundCategory { THEME, BUZZ, MESSAGE, ACTION, BUTTON, SUCCESS };
 	public SoundCategory category;
 
 	public AudioClip clip;
@@ -20,6 +20,8 @@ public class Sound
 	public float pitch = 1;
 
 	public bool loop;
+	public bool playOnce;
+	[HideInInspector] public bool played;
 
 	[HideInInspector]
 	public AudioSource source;
